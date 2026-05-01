@@ -1,6 +1,7 @@
 import { Poppins, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import AppNavbar from "@/components/Navbar/Navbar";
+import Footer from "@/components/Footer/Footer";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-full flex flex-col font-(family-name:--font-poppins) bg-[#121212]">
         <AppNavbar />
         <main className="grow">{children}</main>
+        <Footer />
       </body>
     </html>
   );
