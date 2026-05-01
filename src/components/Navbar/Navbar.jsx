@@ -4,7 +4,7 @@ import NavLink from "./NavLink";
 
 const Navbar = () => {
   return (
-    <nav className="bg-[#0A0A0A]/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-800">
+    <nav className="bg-[#1A1A1A]/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="shrink-0 flex items-center gap-2">
