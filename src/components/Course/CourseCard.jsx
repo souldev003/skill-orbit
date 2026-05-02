@@ -1,7 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
 import React from "react";
 import { FiClock, FiBook, FiStar } from "react-icons/fi";
 import Link from "next/link";
+import { toast } from "react-toastify";
+
+const handleEnroll = () => {
+  toast.success("Successfully Enrolled in SkillOrbit!");
+};
 
 const CourseCard = ({ course }) => {
   return (
@@ -64,7 +70,10 @@ const CourseCard = ({ course }) => {
             >
               View Details
             </Link>
-            <button className="bg-orange-600 hover:bg-orange-700 text-white py-2.5 rounded-lg font-bold text-xs transition-all duration-300 shadow-lg shadow-orange-900/20">
+            <button
+              onClick={handleEnroll}
+              className="bg-orange-600 hover:bg-orange-700 text-white py-2.5 rounded-lg font-bold text-xs transition-all duration-300 shadow-lg shadow-orange-900/20"
+            >
               Enroll Now
             </button>
           </div>

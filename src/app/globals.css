@@ -1,2 +1,17 @@
 @import "tailwindcss";
 @import "@heroui/styles";
+
+.Toastify__progress-bar--success {
+    background: #ea580c !important;
+    /* SkillOrbit Orange */
+}
+
+.Toastify__toast--success svg {
+    fill: #ea580c !important;
+}
+
+.Toastify__toast--success {
+    border: 1px solid rgba(234, 88, 12, 0.3) !important;
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+}

@@ -3,6 +3,9 @@ import "./globals.css";
 import AppNavbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
@@ -29,6 +32,25 @@ export default function RootLayout({ children }) {
         <AppNavbar />
         <main className="grow">{children}</main>
         <Footer />
+
+        <ToastContainer
+          position="bottom-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+          toastStyle={{
+            backgroundColor: "#1A1A1A",
+            border: "1px solid #ea580c",
+            color: "#fff",
+            borderRadius: "12px",
+          }}
+        />
       </body>
     </html>
   );
