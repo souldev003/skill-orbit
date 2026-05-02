@@ -72,7 +72,7 @@ const CourseCard = ({ course }) => {
             </Link>
             <button
               onClick={handleEnroll}
-              className="bg-orange-600 hover:bg-orange-700 text-white py-2.5 rounded-lg font-bold text-xs transition-all duration-300 shadow-lg shadow-orange-900/20"
+              className="bg-orange-600 cursor-pointer hover:bg-orange-700 text-white py-2.5 rounded-lg font-bold text-xs transition-all duration-300 shadow-lg shadow-orange-900/20"
             >
               Enroll Now
             </button>
