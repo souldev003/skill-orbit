@@ -1,7 +1,7 @@
 import CourseGrid from "@/components/Course/CourseGrid";
 
 async function getAllCourses() {
-  const res = await fetch("http://localhost:3000/data.json", {
+  const res = await fetch("https://skill-orbit-two.vercel.app/data.json", {
     cache: "no-store",
   });
 
