@@ -50,6 +50,12 @@ const LoginPage = () => {
     }
   };
 
+  const onGoogleSignIn = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
+  };
+
   return (
     <div className="min-h-screen bg-[#0b0b0b] flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-md bg-[#141414] rounded-[2.5rem] p-10 border border-gray-900 shadow-2xl">
@@ -122,6 +128,7 @@ const LoginPage = () => {
         </div>
 
         <button
+          onClick={onGoogleSignIn}
           type="button"
           className="w-full h-14 border cursor-pointer border-gray-800 text-white font-bold text-lg rounded-2xl hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-3 group"
         >
