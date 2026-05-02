@@ -6,7 +6,6 @@ import Link from "next/link";
 const CourseCard = ({ course }) => {
   return (
     <div className="bg-[#1A1A1A] border border-gray-800 rounded-2xl overflow-hidden hover:border-orange-500/50 transition-all duration-300 group flex flex-col h-full shadow-2xl">
-      {/* Image Section */}
       <div className="relative h-52 w-full overflow-hidden">
         <img
           src={course.image}
@@ -18,7 +17,6 @@ const CourseCard = ({ course }) => {
         </div>
       </div>
 
-      {/* Content Section */}
       <div className="p-6 flex flex-col grow">
         <div className="flex justify-between items-center mb-3">
           <span className="text-orange-500 text-xs font-semibold px-2 py-1 bg-orange-500/10 rounded">
@@ -38,7 +36,6 @@ const CourseCard = ({ course }) => {
           {course.description}
         </p>
 
-        {/* Course Stats */}
         <div className="flex items-center gap-4 text-gray-500 text-xs mb-6 mt-auto">
           <div className="flex items-center gap-1">
             <FiClock className="text-orange-500" />
@@ -50,7 +47,6 @@ const CourseCard = ({ course }) => {
           </div>
         </div>
 
-        {/* Buttons and Pricing */}
         <div className="flex flex-col gap-4 pt-4 border-t border-gray-800">
           <div className="flex items-center justify-between">
             <span className="text-2xl font-bold text-white">

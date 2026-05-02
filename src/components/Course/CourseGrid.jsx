@@ -23,13 +23,15 @@ const CourseGrid = ({ courses }) => {
             </h2>
           </div>
 
-          <Link
-            href="/courses"
-            className="group flex items-center gap-2 text-white bg-white/5 hover:bg-orange-600 border border-white/10 hover:border-orange-600 px-6 py-3 rounded-full transition-all duration-300"
-          >
-            View All Courses
-            <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
-          </Link>
+          {courses.length <= 3 && (
+            <Link
+              href="/courses"
+              className="group flex items-center gap-2 text-white bg-white/5 hover:bg-orange-600 border border-white/10 hover:border-orange-600 px-6 py-3 rounded-full transition-all duration-300"
+            >
+              View All Courses
+              <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
