@@ -1,19 +1,30 @@
 "use client";
-
 import React from "react";
+import { FiChevronRight } from "react-icons/fi";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
-const EnrollButton = () => {
-  const handleEnroll = () => {
-    toast.success("Successfully Enrolled in SkillOrbit!");
+const EnrollButton = ({ courseTitle, courseId }) => {
+  const router = useRouter();
+  const { data: session } = authClient.useSession();
+
+  const handleEnrollClick = () => {
+    if (!session) {
+      toast.error("Please login first to enroll!");
+      router.push("/login");
+      return;
+    }
+
+    toast.success(`Successfully Enrolled in ${courseTitle}!`);
   };
 
   return (
     <button
-      onClick={handleEnroll}
-      className="bg-orange-600 cursor-pointer hover:bg-orange-700 text-white px-10 py-4 rounded-xl font-bold text-lg transition-all shadow-lg shadow-orange-900/20 active:scale-95"
+      onClick={handleEnrollClick}
+      className="flex items-center cursor-pointer justify-center gap-2 bg-orange-600 hover:bg-orange-500 text-white py-3.5 rounded-xl font-black text-[10px] tracking-widest transition-all duration-300 uppercase shadow-[0_10px_20px_-10px_rgba(234,88,12,0.5)] active:scale-95 w-full"
     >
-      Enroll Now
+      Enroll Now <FiChevronRight size={14} />
     </button>
   );
 };

@@ -68,12 +68,19 @@ export default async function CourseDetails({ params }) {
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-4">
-            <div>
-              <p className="text-gray-500 text-sm italic">Course Price</p>
-              <h2 className="text-4xl font-bold text-white">${course.price}</h2>
+          <div className="flex flex-col sm:flex-row items-center gap-6 pt-6 mt-4 p-6 bg-linear-to-br from-[#141414] to-[#0f0f0f] border border-white/5 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+            <div className="flex flex-col min-w-max">
+              <p className="text-gray-500 text-[10px] font-black uppercase tracking-[0.2em] italic">
+                Course Price
+              </p>
+              <h2 className="text-4xl font-black text-white italic tracking-tighter">
+                ${course.price}
+              </h2>
             </div>
-            <EnrollButton />
+
+            <div className="w-full">
+              <EnrollButton courseTitle={course.title} courseId={course.id} />
+            </div>
           </div>
         </div>
       </div>

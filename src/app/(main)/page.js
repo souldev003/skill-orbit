@@ -2,6 +2,7 @@ import Banner from "@/components/Banner/Banner";
 import Features from "@/components/Banner/Features";
 import CourseGrid from "@/components/Course/CourseGrid";
 import AdditionalSections from "@/components/Home/AdditionalSections";
+import PreFooterSection from "@/components/Home/PreFooterSection";
 
 async function getCourses() {
   const res = await fetch("https://skill-orbit-two.vercel.app/data.json");
@@ -24,6 +25,7 @@ export default async function Home() {
       <Features />
       <CourseGrid courses={courses} />
       <AdditionalSections />
+      <PreFooterSection />
     </div>
   );
 }

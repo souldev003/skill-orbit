@@ -1,13 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
 import React from "react";
-import { FiClock, FiBook, FiStar, FiChevronRight } from "react-icons/fi";
+import { FiStar } from "react-icons/fi";
 import Link from "next/link";
-import { toast } from "react-toastify";
-
-const handleEnroll = () => {
-  toast.success("Successfully Enrolled in SkillOrbit!");
-};
+import EnrollButton from "./EnrollButton";
 
 const CourseCard = ({ course }) => {
   return (
@@ -19,7 +14,6 @@ const CourseCard = ({ course }) => {
           alt={course.title}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-
         <div className="absolute top-5 left-5 z-20 flex gap-2">
           <span className="bg-orange-600 text-white text-[9px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest shadow-2xl">
             {course.level}
@@ -48,22 +42,7 @@ const CourseCard = ({ course }) => {
           {course.description}
         </p>
 
-        <div className="flex items-center gap-5 text-gray-400 text-[11px] font-bold uppercase tracking-tighter mb-8 mt-auto">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-md bg-white/5">
-              <FiClock className="text-orange-500" size={14} />
-            </div>
-            <span>{course.duration}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-md bg-white/5">
-              <FiBook className="text-orange-500" size={14} />
-            </div>
-            <span>{course.lessons} Lessons</span>
-          </div>
-        </div>
-
-        <div className="space-y-4 pt-6 border-t border-white/5">
+        <div className="space-y-4 pt-6 border-t border-white/5 mt-auto">
           <div className="flex items-end justify-between">
             <div className="flex flex-col">
               <span className="text-[10px] text-gray-600 font-black uppercase tracking-widest">
@@ -73,9 +52,6 @@ const CourseCard = ({ course }) => {
                 ${course.price}
               </span>
             </div>
-            <span className="text-gray-600 text-[10px] font-bold uppercase pb-1 tracking-widest">
-              LIFETIME
-            </span>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -85,12 +61,7 @@ const CourseCard = ({ course }) => {
             >
               Details
             </Link>
-            <button
-              onClick={handleEnroll}
-              className="flex items-center cursor-pointer justify-center gap-2 bg-orange-600 hover:bg-orange-500 text-white py-3.5 rounded-xl font-black text-[10px] tracking-widest transition-all duration-300 uppercase shadow-[0_10px_20px_-10px_rgba(234,88,12,0.5)] active:scale-95"
-            >
-              Enroll Now <FiChevronRight size={14} />
-            </button>
+            <EnrollButton courseTitle={course.title} courseId={course.id} />
           </div>
         </div>
       </div>
