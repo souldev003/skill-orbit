@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🚀 SkillOrbit - Premium Learning Platform
 
-## Getting Started
+**SkillOrbit** is a high-performance e-learning platform featuring a sleek **Pseudo-3D** design and a **Minimalist** dark interface. Built for students to discover and enroll in premium tech courses.
 
-First, run the development server:
+🔗 **Live Production Link:** [https://skill-orbit-two.vercel.app/](https://skill-orbit-two.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Key Features
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- **🔐 Secure Authentication:** Integrated with Better-Auth for protected user sessions.
+- **🔍 Smart Search:** Real-time course filtering by title or category.
+- **🛡️ Route Protection:** Middleware-based redirection for unauthorized access.
+- **📱 Responsive UI:** Optimized experience across mobile, tablet, and desktop.
+- **⚡ Fast Performance:** Built on Next.js App Router for optimal speed.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Built With
 
-## Learn More
+- **Framework:** Next.js (App Router)
+- **Styling:** Tailwind CSS & DaisyUI
+- **Animations:** Framer Motion
+- **Auth:** Better-Auth (with auth-client)
+- **Icons:** React Icons
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 How to Run Locally
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Clone the project:**
+   ```bash
+   git clone [https://github.com/souldev003/skill-orbit.git] (https://github.com/souldev003/skill-orbit.git)
+   ```
