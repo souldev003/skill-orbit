@@ -1,13 +1,11 @@
-import AppNavbar from "@/components/Navbar/Navbar";
+import Banner from "@/components/Banner/Banner";
+import Features from "@/components/Banner/Features";
 
 export default function Home() {
   return (
     <div>
-      <main className="flex-1 flex items-center justify-center">
-        <h1 className="text-4xl font-bold text-gray-800">
-          Welcome to SkillOrbit!
-        </h1>
-      </main>
+      <Banner />
+      <Features />
     </div>
   );
 }
