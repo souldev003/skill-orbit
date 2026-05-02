@@ -42,28 +42,40 @@ const Navbar = () => {
             {user ? (
               <div className="flex items-center gap-4 border-l border-gray-800 pl-5">
                 <div className="flex items-center gap-3">
-                  <div className="text-right">
+                  <div className="text-right hidden sm:block">
                     <p className="text-white text-sm font-bold leading-tight">
                       {user.name}
                     </p>
                     <p className="text-gray-500 text-[10px]">Student</p>
                   </div>
-                  <div className="h-10 w-10 rounded-full border-2 border-orange-500 overflow-hidden bg-gray-800 flex items-center justify-center">
-                    {user.image ? (
-                      <img
-                        src={user.image}
-                        alt={user.name}
-                        className="h-full w-full object-cover"
-                        onError={(e) => {
-                          e.target.style.display = "none";
-                        }}
-                      />
-                    ) : (
-                      <FaUserCircle className="text-gray-400 text-3xl" />
-                    )}
-                    <FaUserCircle className="text-gray-400 text-3xl absolute -z-10" />
+
+                  <div
+                    onClick={() => router.push("/profile")}
+                    className="relative h-11 w-11 flex items-center justify-center cursor-pointer"
+                  >
+                    <div className="absolute inset-0 rounded-full border-2 border-orange-500/40 animate__animated animate__pulse animate__infinite animate__slow"></div>
+
+                    <div className="absolute -inset-0.5 rounded-full bg-linear-to-tr from-orange-600 via-transparent to-orange-400 opacity-80 animate-spin animation-duration-[3s]"></div>
+
+                    <div className="relative h-9 w-9 rounded-full border-2 border-[#1A1A1A] bg-gray-800 flex items-center justify-center overflow-hidden shadow-[0_0_15px_rgba(234,88,12,0.5)] transition-all">
+                      {user.image ? (
+                        <img
+                          src={user.image}
+                          alt={user.name}
+                          className="h-full w-full object-cover"
+                          onError={(e) => {
+                            e.target.style.display = "none";
+                          }}
+                        />
+                      ) : (
+                        <FaUserCircle className="text-gray-400 text-2xl" />
+                      )}
+                    </div>
+
+                    <span className="absolute bottom-0 right-0 h-2.5 w-2.5 bg-green-500 border-2 border-[#1A1A1A] rounded-full animate-pulse"></span>
                   </div>
                 </div>
+
                 <button
                   onClick={handleLogout}
                   className="text-gray-400 cursor-pointer hover:text-red-500 transition-colors"

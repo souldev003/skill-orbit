@@ -1,17 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { authClient } from "@/lib/auth-client";
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useRouter } from "next/navigation";
 import {
   FaUserCircle,
   FaEnvelope,
   FaShieldAlt,
-  FaCamera,
   FaGem,
   FaGraduationCap,
   FaFire,
 } from "react-icons/fa";
-
 import {
   SiReact,
   SiNextdotjs,
@@ -20,44 +19,12 @@ import {
   SiTypescript,
   SiMongodb,
 } from "react-icons/si";
-
-import { FiEdit3, FiX, FiCheck } from "react-icons/fi";
-import { toast } from "react-toastify";
+import { FiEdit3 } from "react-icons/fi";
 
 const ProfilePage = () => {
+  const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
-
-  const [isEditing, setIsEditing] = useState(false);
-  const [updateLoading, setUpdateLoading] = useState(false);
-
-  const [formData, setFormData] = useState({
-    name: user?.name || "",
-    image: user?.image || "",
-  });
-
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    setUpdateLoading(true);
-
-    try {
-      const { error } = await authClient.updateUser({
-        name: formData.name,
-        image: formData.image,
-      });
-
-      if (error) {
-        toast.error(error.message || "Failed to update profile");
-      } else {
-        toast.success("Profile updated successfully!");
-        setIsEditing(false);
-      }
-    } catch (err) {
-      toast.error("Something went wrong!");
-    } finally {
-      setUpdateLoading(false);
-    }
-  };
 
   if (isPending) {
     return (
@@ -75,13 +42,15 @@ const ProfilePage = () => {
 
           <div className="relative flex flex-col md:flex-row items-center gap-8">
             <div className="relative group">
-              <div className="h-32 w-32 md:h-40 md:w-40 rounded-3xl border-2 border-orange-500/30 p-2 bg-[#0b0b0b]">
-                <div className="h-full w-full rounded-2xl overflow-hidden bg-gray-800 flex items-center justify-center">
+              <div className="absolute -inset-1 bg-linear-to-r from-orange-600 to-orange-400 rounded-[2rem] blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate__animated animate__pulse animate__infinite"></div>
+
+              <div className="relative h-32 w-32 md:h-40 md:w-40 rounded-3xl border-2 border-orange-500/30 p-2 bg-[#0b0b0b] shadow-[10px_10px_20px_rgba(0,0,0,0.5)] overflow-hidden">
+                <div className="h-full w-full rounded-2xl overflow-hidden bg-gray-800 flex items-center justify-center animate__animated animate__fadeIn">
                   {user?.image ? (
                     <img
                       src={user.image}
                       alt={user.name}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
                   ) : (
                     <FaUserCircle className="text-gray-600 text-7xl" />
@@ -89,81 +58,31 @@ const ProfilePage = () => {
                 </div>
               </div>
               <button
-                onClick={() => setIsEditing(!isEditing)}
-                className="absolute bottom-2 right-2 p-2 bg-orange-600 rounded-xl text-white shadow-lg hover:scale-110 transition-transform z-10"
+                onClick={() => router.push("/profile/edit")}
+                className="absolute bottom-2 right-2 p-3 bg-orange-600 rounded-2xl text-white shadow-xl hover:scale-110 active:scale-90 transition-all z-10 animate__animated animate__bounceIn animate__delay-1s"
               >
-                {isEditing ? <FiX size={18} /> : <FiEdit3 size={18} />}
+                <FiEdit3 size={20} />
               </button>
             </div>
 
-            {/* User Info / Edit Form */}
             <div className="flex-1 text-center md:text-left">
-              {!isEditing ? (
-                <div className="space-y-2">
-                  <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight italic">
-                    {user?.name}
-                  </h1>
-                  <p className="text-orange-500 font-bold tracking-widest text-[10px] uppercase bg-orange-500/10 inline-block px-3 py-1 rounded-full">
-                    SkillOrbit Student
-                  </p>
-                  <div className="flex flex-col md:flex-row gap-4 mt-4 justify-center md:justify-start">
-                    <div className="flex items-center gap-2 text-gray-400 text-sm">
-                      <FaEnvelope className="text-orange-500/60" />{" "}
-                      {user?.email}
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-400 text-sm">
-                      <FaShieldAlt className="text-orange-500/60" /> Verified
-                    </div>
+              <div className="space-y-2">
+                <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight italic">
+                  {user?.name}
+                </h1>
+                <p className="text-orange-500 font-bold tracking-widest text-[10px] uppercase bg-orange-500/10 inline-block px-3 py-1 rounded-full border border-orange-500/20">
+                  SkillOrbit Pro Student
+                </p>
+                <div className="flex flex-col md:flex-row gap-4 mt-4 justify-center md:justify-start">
+                  <div className="flex items-center gap-2 text-gray-400 text-sm">
+                    <FaEnvelope className="text-orange-500/60" /> {user?.email}
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-400 text-sm">
+                    <FaShieldAlt className="text-orange-500/60" /> Verified
+                    Identity
                   </div>
                 </div>
-              ) : (
-                <form
-                  onSubmit={handleUpdate}
-                  className="space-y-4 w-full max-w-sm mx-auto md:mx-0"
-                >
-                  <div className="space-y-1">
-                    <label className="text-gray-500 text-[10px] font-bold uppercase ml-1">
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                      className="w-full bg-[#0b0b0b] border border-gray-800 text-white px-4 py-2 rounded-xl focus:border-orange-500 outline-none transition-all"
-                      placeholder="Your Name"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-gray-500 text-[10px] font-bold uppercase ml-1">
-                      Photo URL
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.image}
-                      onChange={(e) =>
-                        setFormData({ ...formData, image: e.target.value })
-                      }
-                      className="w-full bg-[#0b0b0b] border border-gray-800 text-white px-4 py-2 rounded-xl focus:border-orange-500 outline-none transition-all"
-                      placeholder="https://image-link.com"
-                    />
-                  </div>
-                  <button
-                    disabled={updateLoading}
-                    type="submit"
-                    className="flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded-xl font-bold text-sm transition-all active:scale-95 disabled:opacity-50"
-                  >
-                    {updateLoading ? (
-                      "Updating..."
-                    ) : (
-                      <>
-                        <FiCheck /> Save Changes
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
+              </div>
             </div>
           </div>
         </div>
@@ -172,25 +91,25 @@ const ProfilePage = () => {
           {[
             {
               label: "My Courses",
-              value: "04",
+              value: "08",
               icon: <FaFire className="text-orange-500" />,
             },
             {
               label: "Certificates",
-              value: "02",
+              value: "03",
               icon: <FaGraduationCap className="text-blue-500" />,
             },
             {
-              label: "Points",
-              value: "1250",
+              label: "Skill Points",
+              value: "2450",
               icon: <FaGem className="text-purple-500" />,
             },
           ].map((stat, i) => (
             <div
               key={i}
-              className="bg-[#141414] border border-gray-900 p-6 rounded-[2rem] hover:border-orange-500/30 transition-all"
+              className="bg-[#141414] border border-gray-900 p-6 rounded-[2rem] hover:border-orange-500/30 transition-all shadow-lg"
             >
-              <div className="text-2xl mb-2 transition-transform duration-300">
+              <div className="text-2xl mb-2 transition-transform">
                 {stat.icon}
               </div>
               <p className="text-gray-500 text-[10px] font-bold uppercase tracking-widest">
@@ -206,11 +125,10 @@ const ProfilePage = () => {
         <div className="mt-12">
           <div className="flex items-center gap-4 mb-8">
             <h3 className="text-white font-black text-2xl tracking-tight italic">
-              Your <span className="text-orange-500">Progress</span>
+              Tech <span className="text-orange-500">Stack</span>
             </h3>
-            <div className="h-px grow bg-gradient-to-right from-orange-500/50 to-transparent"></div>
+            <div className="h-px grow bg-linear-to-r from-orange-500/50 to-transparent"></div>
           </div>
-
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
             {[
               {
@@ -234,7 +152,7 @@ const ProfilePage = () => {
                 level: "Advanced",
               },
               {
-                name: "TypeScript",
+                name: "TS",
                 icon: <SiTypescript className="text-[#3178C6]" />,
                 level: "Intermediate",
               },
@@ -246,19 +164,12 @@ const ProfilePage = () => {
             ].map((stack, i) => (
               <div
                 key={i}
-                className="bg-[#141414] border border-gray-900 p-5 rounded-3xl flex flex-col items-center justify-center gap-3 hover:border-orange-500/40 transition-all group cursor-default"
+                className="bg-[#141414] border border-gray-900 p-5 rounded-3xl flex flex-col items-center gap-2 hover:border-orange-500/40 transition-all shadow-md"
               >
-                <div className="text-3xl group-hover:scale-110 transition-transform duration-300">
+                <div className="text-3xl transition-transform">
                   {stack.icon}
                 </div>
-                <div className="text-center">
-                  <p className="text-white text-xs font-bold tracking-wide">
-                    {stack.name}
-                  </p>
-                  <p className="text-gray-600 text-[9px] uppercase font-black mt-0.5">
-                    {stack.level}
-                  </p>
-                </div>
+                <p className="text-white text-[10px] font-bold">{stack.name}</p>
               </div>
             ))}
           </div>
