@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { toast, ToastContainer } from "react-toastify";
 import {
   FaGoogle,
   FaEnvelope,
@@ -10,21 +12,52 @@ import {
   FaUser,
   FaImage,
 } from "react-icons/fa";
+import { authClient } from "@/lib/auth-client";
+
+import { useRouter } from "next/navigation";
 
 const RegisterPage = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  const handleRegister = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-    console.log("Registration Data:", data);
+  const router = useRouter();
+
+  const onSubmit = async (data) => {
+    setLoading(true);
+    try {
+      const { data: res, error } = await authClient.signUp.email({
+        email: data.email,
+        password: data.password,
+        name: data.name,
+        image: data.photoURL,
+      });
+
+      if (error) {
+        toast.error(error.message || "Registration failed!");
+      } else {
+        toast.success("Account created successfully!");
+
+        setTimeout(() => {
+          router.push("/login");
+        }, 1000);
+      }
+    } catch (err) {
+      toast.error("An unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#0b0b0b] flex items-center justify-center px-6 py-12">
+      <ToastContainer theme="dark" />
       <div className="w-full max-w-md bg-[#141414] rounded-[2.5rem] p-10 border border-gray-900 shadow-2xl">
         <div className="text-center mb-10">
           <h2 className="text-4xl font-black text-white mb-3 tracking-tight">
@@ -35,7 +68,7 @@ const RegisterPage = () => {
           </p>
         </div>
 
-        <form onSubmit={handleRegister} className="space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div className="space-y-2">
             <label className="text-gray-300 text-sm font-semibold ml-1">
               Full Name
@@ -45,9 +78,8 @@ const RegisterPage = () => {
                 <FaUser className="text-gray-500 group-focus-within:text-orange-500 transition-colors" />
               </div>
               <input
-                name="name"
+                {...register("name", { required: true })}
                 type="text"
-                required
                 placeholder="Your Name"
                 className="w-full h-14 bg-[#0b0b0b] border border-gray-800 text-white rounded-2xl pl-12 pr-4 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all placeholder:text-gray-600"
               />
@@ -63,9 +95,8 @@ const RegisterPage = () => {
                 <FaEnvelope className="text-gray-500 group-focus-within:text-orange-500 transition-colors" />
               </div>
               <input
-                name="email"
+                {...register("email", { required: true })}
                 type="email"
-                required
                 placeholder="name@example.com"
                 className="w-full h-14 bg-[#0b0b0b] border border-gray-800 text-white rounded-2xl pl-12 pr-4 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all placeholder:text-gray-600"
               />
@@ -81,9 +112,8 @@ const RegisterPage = () => {
                 <FaImage className="text-gray-500 group-focus-within:text-orange-500 transition-colors" />
               </div>
               <input
-                name="photoURL"
-                type="url"
-                required
+                {...register("photoURL", { required: true })}
+                type="text"
                 placeholder="https://example.com/photo.jpg"
                 className="w-full h-14 bg-[#0b0b0b] border border-gray-800 text-white rounded-2xl pl-12 pr-4 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all placeholder:text-gray-600"
               />
@@ -99,9 +129,8 @@ const RegisterPage = () => {
                 <FaLock className="text-gray-500 group-focus-within:text-orange-500 transition-colors" />
               </div>
               <input
-                name="password"
+                {...register("password", { required: true, minLength: 6 })}
                 type={isVisible ? "text" : "password"}
-                required
                 placeholder="Create a strong password"
                 className="w-full h-14 bg-[#0b0b0b] border border-gray-800 text-white rounded-2xl pl-12 pr-12 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all placeholder:text-gray-600"
               />
@@ -117,9 +146,10 @@ const RegisterPage = () => {
 
           <button
             type="submit"
-            className="w-full h-14 bg-orange-600 hover:bg-orange-700 text-white font-bold text-lg rounded-2xl shadow-lg shadow-orange-900/20 mt-6 active:scale-[0.98] transition-all duration-200"
+            disabled={loading}
+            className={`w-full h-14 bg-orange-600 hover:bg-orange-700 cursor-pointer text-white font-bold text-lg rounded-2xl shadow-lg shadow-orange-900/20 mt-6 active:scale-[0.98] transition-all duration-200 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
           >
-            Create Account
+            {loading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
 
@@ -133,7 +163,7 @@ const RegisterPage = () => {
 
         <button
           type="button"
-          className="w-full h-14 border border-gray-800 text-white font-bold text-lg rounded-2xl hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-3 group"
+          className="w-full h-14 border cursor-pointer border-gray-800 text-white font-bold text-lg rounded-2xl hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-3 group"
         >
           <FaGoogle className="group-hover:text-orange-500 transition-colors" />
           <span>Google</span>

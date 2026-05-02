@@ -1,6 +1,3 @@
-import dns from "node:dns";
-dns.setServers(["8.8.8.8", "8.8.4.4"]);
-
 import { Poppins, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import AppNavbar from "@/components/Navbar/Navbar";
@@ -47,12 +44,6 @@ export default function RootLayout({ children }) {
           draggable
           pauseOnHover
           theme="dark"
-          toastStyle={{
-            backgroundColor: "#1A1A1A",
-            border: "1px solid #ea580c",
-            color: "#fff",
-            borderRadius: "12px",
-          }}
         />
       </body>
     </html>

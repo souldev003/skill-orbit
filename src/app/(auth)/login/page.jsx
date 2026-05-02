@@ -1,6 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 import {
   FaGoogle,
   FaEnvelope,
@@ -8,23 +11,48 @@ import {
   FaEye,
   FaEyeSlash,
 } from "react-icons/fa";
+import { authClient } from "@/lib/auth-client";
 
 const LoginPage = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const router = useRouter();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-    console.log("Login Data:", data);
+  const onSubmit = async (data) => {
+    setLoading(true);
+    try {
+      const { data: res, error } = await authClient.signIn.email({
+        email: data.email,
+        password: data.password,
+        callbackURL: "/",
+      });
+
+      if (error) {
+        toast.error(error.message || "Invalid email or password!");
+      } else {
+        toast.success("Login Successful! Redirecting...");
+
+        setTimeout(() => {
+          router.push("/");
+        }, 1500);
+      }
+    } catch (err) {
+      toast.error("An unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#0b0b0b] flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-md bg-[#141414] rounded-[2.5rem] p-10 border border-gray-900 shadow-2xl">
-        {/* Header */}
         <div className="text-center mb-10">
           <h2 className="text-4xl font-black text-white mb-3 tracking-tight">
             Skill<span className="text-orange-500">Orbit</span>
@@ -34,7 +62,7 @@ const LoginPage = () => {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-2">
             <label className="text-gray-300 text-sm font-semibold ml-1">
               Email Address
@@ -44,9 +72,8 @@ const LoginPage = () => {
                 <FaEnvelope className="text-gray-500 group-focus-within:text-orange-500 transition-colors" />
               </div>
               <input
-                name="email"
+                {...register("email", { required: true })}
                 type="email"
-                required
                 placeholder="john@example.com"
                 className="w-full h-14 bg-[#0b0b0b] border border-gray-800 text-white rounded-2xl pl-12 pr-4 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all placeholder:text-gray-600"
               />
@@ -62,9 +89,8 @@ const LoginPage = () => {
                 <FaLock className="text-gray-500 group-focus-within:text-orange-500 transition-colors" />
               </div>
               <input
-                name="password"
+                {...register("password", { required: true })}
                 type={isVisible ? "text" : "password"}
-                required
                 placeholder="Enter your password"
                 className="w-full h-14 bg-[#0b0b0b] border border-gray-800 text-white rounded-2xl pl-12 pr-12 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all placeholder:text-gray-600"
               />
@@ -80,9 +106,10 @@ const LoginPage = () => {
 
           <button
             type="submit"
-            className="w-full h-14 bg-orange-600 hover:bg-orange-700 text-white font-bold text-lg rounded-2xl shadow-lg shadow-orange-900/20 mt-4 active:scale-[0.98] transition-all duration-200"
+            disabled={loading}
+            className={`w-full h-14 bg-orange-600 cursor-pointer hover:bg-orange-700 text-white font-bold text-lg rounded-2xl shadow-lg shadow-orange-900/20 mt-4 active:scale-[0.98] transition-all duration-200 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
           >
-            Sign In
+            {loading ? "Verifying..." : "Sign In"}
           </button>
         </form>
 
@@ -96,7 +123,7 @@ const LoginPage = () => {
 
         <button
           type="button"
-          className="w-full h-14 border border-gray-800 text-white font-bold text-lg rounded-2xl hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-3 group"
+          className="w-full h-14 border cursor-pointer border-gray-800 text-white font-bold text-lg rounded-2xl hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-3 group"
         >
           <FaGoogle className="group-hover:text-orange-500 transition-colors" />
           <span>Continue with Google</span>
