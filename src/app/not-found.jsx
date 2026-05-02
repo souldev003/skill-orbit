@@ -36,7 +36,7 @@ export default function NotFound() {
 
         <button
           onClick={() => window.history.back()}
-          className="flex items-center justify-center gap-2 border border-gray-700 hover:border-gray-500 text-gray-300 px-8 py-3 rounded-md font-bold transition-all"
+          className="cursor-pointer flex items-center justify-center gap-2 border border-gray-700 hover:border-gray-500 text-gray-300 px-8 py-3 rounded-md font-bold transition-all"
         >
           <FiArrowLeft size={20} />
           Go Back
