@@ -54,21 +54,42 @@ const Footer = () => {
               Platform
             </h3>
             <ul className="space-y-4">
-              {["Home", "All Courses", "About Us", "Contact"].map((item) => (
-                <li key={item}>
-                  <Link
-                    href={
-                      item === "Home"
-                        ? "/"
-                        : `/${item.toLowerCase().replace(" ", "-")}`
-                    }
-                    className="group flex items-center gap-2 hover:text-orange-500 transition-colors text-sm"
-                  >
-                    <FiArrowRight className="opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all text-orange-500" />
-                    {item}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link
+                  href="/"
+                  className="group flex items-center gap-2 hover:text-orange-500 transition-colors text-sm"
+                >
+                  <FiArrowRight className="opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all text-orange-500" />
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/courses"
+                  className="group flex items-center gap-2 hover:text-orange-500 transition-colors text-sm"
+                >
+                  <FiArrowRight className="opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all text-orange-500" />
+                  Courses
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="group flex items-center gap-2 hover:text-orange-500 transition-colors text-sm"
+                >
+                  <FiArrowRight className="opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all text-orange-500" />
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="group flex items-center gap-2 hover:text-orange-500 transition-colors text-sm"
+                >
+                  <FiArrowRight className="opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all text-orange-500" />
+                  Contact
+                </Link>
+              </li>
             </ul>
           </div>
 
