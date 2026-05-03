@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -13,7 +13,7 @@ import {
 } from "react-icons/fa";
 import { authClient } from "@/lib/auth-client";
 
-const LoginPage = () => {
+const LoginForm = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -178,4 +178,16 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#0b0b0b] flex items-center justify-center text-white">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
+  );
+}
