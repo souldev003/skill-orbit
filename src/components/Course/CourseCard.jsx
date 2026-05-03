@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import { FiStar } from "react-icons/fi";
+import { FiStar, FiUser } from "react-icons/fi";
 import Link from "next/link";
 import EnrollButton from "./EnrollButton";
 
@@ -34,9 +34,16 @@ const CourseCard = ({ course }) => {
           </div>
         </div>
 
-        <h3 className="text-xl font-black text-white mb-3 group-hover:text-orange-500 transition-colors leading-tight italic tracking-tight line-clamp-1">
+        <h3 className="text-xl font-black text-white mb-1 group-hover:text-orange-500 transition-colors leading-tight italic tracking-tight line-clamp-1">
           {course.title}
         </h3>
+
+        <div className="flex items-center gap-2 mb-3">
+          <FiUser className="text-orange-500/70" size={12} />
+          <span className="text-gray-400 text-[11px] font-bold uppercase tracking-tighter">
+            {course.instructor}
+          </span>
+        </div>
 
         <p className="text-gray-500 text-sm mb-6 line-clamp-2 leading-relaxed font-medium">
           {course.description}

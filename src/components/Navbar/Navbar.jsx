@@ -155,6 +155,15 @@ const Navbar = () => {
           >
             Courses
           </Link>
+          {user && (
+            <Link
+              href="/profile"
+              onClick={() => setIsOpen(false)}
+              className="text-gray-300 hover:bg-gray-800 hover:text-white px-3 py-3 rounded-md text-base font-medium"
+            >
+              My Profile
+            </Link>
+          )}
 
           <div className="pt-4 border-t border-gray-800 flex flex-col gap-3">
             {user ? (
