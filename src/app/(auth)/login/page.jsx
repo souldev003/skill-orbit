@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   FaGoogle,
   FaEnvelope,
@@ -18,6 +18,10 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const callbackURL = searchParams.get("callbackURL") || "/";
+  const action = searchParams.get("action");
 
   const {
     register,
@@ -31,17 +35,21 @@ const LoginPage = () => {
       const { data: res, error } = await authClient.signIn.email({
         email: data.email,
         password: data.password,
-        callbackURL: "/",
+        callbackURL: callbackURL,
       });
 
       if (error) {
         toast.error(error.message || "Invalid email or password!");
       } else {
-        toast.success("Login Successful! Redirecting...");
+        toast.success("Login Successful!");
+
+        const finalRedirect = action
+          ? `${callbackURL}?action=${action}`
+          : callbackURL;
 
         setTimeout(() => {
-          router.push("/");
-        }, 1500);
+          router.push(finalRedirect);
+        }, 1000);
       }
     } catch (err) {
       toast.error("An unexpected error occurred.");
@@ -51,8 +59,13 @@ const LoginPage = () => {
   };
 
   const onGoogleSignIn = async () => {
-    const data = await authClient.signIn.social({
+    const finalRedirect = action
+      ? `${callbackURL}?action=${action}`
+      : callbackURL;
+
+    await authClient.signIn.social({
       provider: "google",
+      callbackURL: finalRedirect,
     });
   };
 
@@ -66,6 +79,11 @@ const LoginPage = () => {
           <p className="text-gray-400 font-medium">
             Elevate your potential today
           </p>
+          {action === "enroll" && (
+            <p className="mt-4 text-[10px] bg-orange-500/10 text-orange-500 py-2 rounded-lg border border-orange-500/20 font-bold uppercase tracking-widest">
+              Please login to complete enrollment
+            </p>
+          )}
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -78,12 +96,17 @@ const LoginPage = () => {
                 <FaEnvelope className="text-gray-500 group-focus-within:text-orange-500 transition-colors" />
               </div>
               <input
-                {...register("email", { required: true })}
+                {...register("email", { required: "Email is required" })}
                 type="email"
                 placeholder="john@example.com"
                 className="w-full h-14 bg-[#0b0b0b] border border-gray-800 text-white rounded-2xl pl-12 pr-4 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all placeholder:text-gray-600"
               />
             </div>
+            {errors.email && (
+              <p className="text-red-500 text-xs ml-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -95,7 +118,7 @@ const LoginPage = () => {
                 <FaLock className="text-gray-500 group-focus-within:text-orange-500 transition-colors" />
               </div>
               <input
-                {...register("password", { required: true })}
+                {...register("password", { required: "Password is required" })}
                 type={isVisible ? "text" : "password"}
                 placeholder="Enter your password"
                 className="w-full h-14 bg-[#0b0b0b] border border-gray-800 text-white rounded-2xl pl-12 pr-12 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all placeholder:text-gray-600"
@@ -108,6 +131,11 @@ const LoginPage = () => {
                 {isVisible ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
               </button>
             </div>
+            {errors.password && (
+              <p className="text-red-500 text-xs ml-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
           <button

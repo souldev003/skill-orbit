@@ -12,7 +12,9 @@ const EnrollButton = ({ courseTitle, courseId }) => {
   const handleEnrollClick = () => {
     if (!session) {
       toast.error("Please login first to enroll!");
-      router.push("/login");
+      router.push(
+        `/login?callbackURL=${window.location.pathname}&action=enroll`,
+      );
       return;
     }
 

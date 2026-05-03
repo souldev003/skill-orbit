@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import EnrollButton from "@/components/Course/EnrollButton";
-import React from "react";
-import { FiClock, FiBook, FiCheckCircle, FiStar } from "react-icons/fi";
+import React, { Suspense } from "react";
+import { FiClock, FiBook, FiStar, FiUser } from "react-icons/fi";
+import ToastHandler from "@/components/Course/ToastHandler";
 
 async function getCourseData(id) {
   const res = await fetch("https://skill-orbit-two.vercel.app/data.json", {
@@ -28,6 +29,10 @@ export default async function CourseDetails({ params }) {
 
   return (
     <div className="min-h-screen bg-[#0b0b0b] text-white py-20 px-6 lg:px-24">
+      <Suspense>
+        <ToastHandler />
+      </Suspense>
+
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
         <div className="relative rounded-3xl overflow-hidden border border-gray-800 shadow-2xl">
           <img
@@ -47,6 +52,14 @@ export default async function CourseDetails({ params }) {
           <h1 className="text-4xl lg:text-5xl font-extrabold leading-tight">
             {course.title}
           </h1>
+          <div className="flex items-center gap-2 text-gray-400 text-sm">
+            <FiUser className="text-orange-500" />
+            <span>
+              By{" "}
+              <span className="text-white font-bold">{course.instructor}</span>
+            </span>
+          </div>
+
           <p className="text-gray-400 text-lg leading-relaxed">
             {course.description}
           </p>
